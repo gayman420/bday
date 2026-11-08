@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Maham</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#5f1014;--ink:#f6ece6;--soft:#d9b9b4;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root:not([data-theme="light"]){--bg:#5f1014;--ink:#f6ece6;--soft:#d9b9b4}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#4a0c10;--ink:#f6ece6;--soft:#d9b9b4}}
+:root[data-theme="dark"]{--bg:#4a0c10;--ink:#f6ece6;--soft:#d9b9b4}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;display:flex;flex-direction:column;align-items:center;padding:20px 12px 40px}
+h1{font-style:italic;font-weight:400;font-size:1.05rem;letter-spacing:.14em;text-transform:uppercase;margin:10px 0 4px;color:var(--soft)}
+.hint{font-style:italic;color:var(--soft);font-size:.95rem;margin:0 0 18px;text-align:center}
+.pg{margin:0 0 18px;width:100%;max-width:540px}
+.wrap{position:relative;width:100%}
+.wrap img{display:block;width:100%;height:auto;border-radius:4px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.pill{position:absolute;left:15.4%;top:80.2%;width:34%;height:7.6%;background:transparent;border:0;border-radius:999px;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent}
+.pill:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.ring{position:absolute;inset:0;border-radius:999px;pointer-events:none}
+.pill[aria-pressed="true"] .ring{box-shadow:0 0 0 3px rgba(255,255,255,.85);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+.status{font-style:italic;color:var(--soft);font-size:.95rem;min-height:1.4em;margin:-6px 0 12px;text-align:center}
+@media (prefers-reduced-motion: reduce){.pill[aria-pressed="true"] .ring{animation:none}}
+</style></head><body>
+<h1>For Maham</h1>
+<p class="hint">Scroll down. Tap the “For You” button on the last page to hear a voice message.</p>
+<figure class="pg"><div class="wrap"><img src="images/page1.jpg" alt="Birthday card for Maham with two polaroid photos" width="1080" height="1350"></div></figure>
+<figure class="pg"><div class="wrap"><img src="images/page2.jpg" alt="A list of things Haris loves about Maham, with two polaroid photos" width="1080" height="1350"></div></figure>
+<figure class="pg"><div class="wrap"><img src="images/page3.jpg" alt="A handwritten poem, first part, with a sticker" width="1080" height="1350"></div></figure>
+<figure class="pg"><div class="wrap"><img src="images/page4.jpg" alt="The poem’s last part, signed Haris, with a voice message button and a sticker" width="1080" height="1350"><button id="play" class="pill" aria-label="Play voice message For You" aria-pressed="false"><span class="ring"></span></button></div></figure>
+
+<p class="status" id="status" role="status"></p>
+<audio id="aud" preload="auto" src="for-you.m4a"></audio>
+<script>
+(function(){
+var a=document.getElementById('aud'),b=document.getElementById('play'),s=document.getElementById('status');
+function set(on){b.setAttribute('aria-pressed',on?'true':'false');s.textContent=on?'Playing…':''}
+b.addEventListener('click',function(){
+  if(a.paused){var p=a.play();if(p&&p.catch)p.catch(function(){s.textContent='Your browser couldn’t play this. Ask Haris to send it as a voice message.'});}
+  else a.pause();
+});
+a.addEventListener('play',function(){set(true)});
+a.addEventListener('pause',function(){set(false)});
+a.addEventListener('ended',function(){set(false);a.currentTime=0});
+a.addEventListener('error',function(){s.textContent='Your browser couldn’t load the audio. Ask Haris to send it as a voice message.'});
+})();
+</script>
+</body></html>
